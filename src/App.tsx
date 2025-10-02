@@ -29,17 +29,20 @@ function App() {
 
 
   return (
-    <div>
+    <>
+    <div style={{display:'', maxWidth:'100%', alignItems:'center'}}>
+      <h2>Galeria de imagenes</h2> <br />
         {galeria.map((item) => 
-        <div>
+        <div style={{textAlign:'justify'}}>
           <img src={item.download_url} alt={'Author: ${item.author'}
-          style={{height:'100px'}}>
+          style={{width:'150px'}}>
           
           </img>
           <p>{item.author}</p>
         </div>
         )}
     </div>
+    </>
   )
 }
 
