@@ -1,35 +1,46 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import { useState, useEffect } from 'react'
 import './App.css'
 
+interface GaleriaType{
+  id: number;
+  author: string;
+  url: string;
+  download_url: string;
+}
+
 function App() {
-  const [count, setCount] = useState(0)
+  
+  const [galeria, setGaleria] = useState<GaleriaType[]>([]);
+
+  const obtenerDatos = async() => {
+    try{
+      const result = await fetch('https://picsum.photos/v2/list?page=2&limit=25')
+      .then((res) => res.json());
+      setGaleria(result);
+
+    }catch(error){
+      console.log('Error', error);
+    }
+  };
+
+  useEffect(() => {
+    obtenerDatos();
+  },[])
+
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    <div>
+        {galeria.map((item) => 
+        <div>
+          <img src={item.download_url} alt={'Author: ${item.author'}
+          style={{height:'100px'}}>
+          
+          </img>
+          <p>{item.author}</p>
+        </div>
+        )}
+    </div>
   )
 }
 
-export default App
+export default App;
